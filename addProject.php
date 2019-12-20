@@ -21,24 +21,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // a request happened
 
     if (strlen($_POST['name']) > 255)
     {
-        $nameError = "Project Name must be less than 255 characters";
+        $nameError .= "Project Name must be less than 255 characters ";
         $ok = false;
     }
 
-    if (getProject($name) !== NULL)
-    {
+    if (strcmp(gettype($name), "string") !== 0) {
+        $nameError .= "Project name must be a string ";
+        $ok .= false;
+    }
+
+    if (getProject($name) !== NULL) {
         $nameError = "A Project with this name already exists";
         $ok = false;
     }
 
     if ($_POST['workingHoursPerDay'] <= 0 || $_POST['workingHoursPerDay'] > 24) {
-        $workingHoursPerDayError = "Working Hours Per Day Must be in Range [1, 24]";
+        $workingHoursPerDayError = "Working Hours Per Day Must be in Range [1, 24] ";
+        $ok = false;
+    }
+    if (!is_numeric($workingHoursPerDay)){
+        $workingHoursPerDayError .= "Working Hours Per Day must be integer ";
         $ok = false;
     }
     if ($_POST['cost'] < 0){
-        $costError = "Cost can't be negative";
+        $costError = "Cost can't be negative ";
         $ok = false;
     }
+    if (!is_numeric($cost)) {
+        $costError .= "Cost must be an integer ";
+        $ok = false;
+    }
+
     if ($_POST['dueDate'] < $_POST['startDate']){
         $dueDateError = "Due Date can't be before Start Date";
         $ok = false;
