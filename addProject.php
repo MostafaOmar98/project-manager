@@ -1,6 +1,6 @@
 <?php
 
-include 'Project.php';
+include_once 'Project.php';
 
 $nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = "";
 $name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = "";

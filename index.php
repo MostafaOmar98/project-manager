@@ -13,7 +13,7 @@
 </body>
 
 <?php
-include "Project.php";
+include_once "Project.php";
 
 
 echo "<h1> List Of Current Projects: </h1>";
