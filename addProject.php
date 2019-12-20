@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // a request happened
         $ok = false;
     }
 
-    if (projectExists($name))
+    if (getProject($name) !== NULL)
     {
         $nameError = "A Project with this name already exists";
         $ok = false;

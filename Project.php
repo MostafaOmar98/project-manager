@@ -111,13 +111,20 @@ function getAllProjects()
 
 
 
-function projectExists($projectName)
+function getProject($projectName)
 {
+    /*
+     * Returns Project object or NULL if not found
+     */
     $conn = openConnection();
 
     $selectQuery = "SELECT * FROM project WHERE Name='$projectName'";
     $record = $conn->query($selectQuery);
-    return $record->num_rows > 0;
+    if ($record->num_rows === 0)
+        return NULL;
+    $row = $record->fetch_assoc();
+    $p = new Project($row['Name'], $row['WorkingHoursPerDay'], $row['Cost'], $row['StartDate'], $row['DueDate'], $row['StartingDayOfTheWeek']);
+    return $p;
 }
 
 ?>
