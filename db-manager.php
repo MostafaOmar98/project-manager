@@ -9,8 +9,15 @@ function insertProject(Project $p)
      */
     $conn = openConnection();
 
+    $name = $p->getName();
+    $workingHoursPerDay = $p->getWorkingHoursPerDay();
+    $cost = $p->getCost();
+    $startDate = $p->getStartDate();
+    $dueDate = $p->getDueDate();
+    $startingDayOfTheWeek = $p->getStartingDayOfTheWeek();
+
     $insertQuery = "INSERT INTO project (Name, WorkingHoursPerDay, Cost, StartDate, DueDate, StartingDayOfTheWeek)
-            VALUES ('$p->getName()', $p->getWorkingHoursPerDay(), $p->getCost(), $p->getWorkingDays(), '$p->getStartDate()', '$p->getDueDate()', $p->getStartingDayOfTheWeek()";
+            VALUES ('$name', $workingHoursPerDay, $cost, '$startDate', '$dueDate', $startingDayOfTheWeek)";
     $conn->query($insertQuery);
 
     closeConnection($conn);
@@ -34,6 +41,15 @@ function getAllProjects()
     }
 
     return $ret;
+}
+
+function projectExists($projectName)
+{
+    $conn = openConnection();
+
+    $selectQuery = "SELECT * FROM project WHERE Name='$projectName'";
+    $record = $conn->query($selectQuery);
+    return $record->num_rows > 0;
 }
 
 ?>

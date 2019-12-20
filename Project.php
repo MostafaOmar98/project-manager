@@ -55,10 +55,10 @@ class Project
         return $this->StartingDayOfTheWeek;
     }
 
-//    public function __toString()
-//    {
-//        return "Project";
-//    }
+    public function __toString()
+    {
+        return "".$this->getName()." ".$this->getWorkingHoursPerDay()." ".$this->getCost()." ".$this->getStartDate()." ".$this->getDueDate()." ".$this->getStartingDayOfTheWeek();
+    }
 
 
 }

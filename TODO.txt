@@ -1,0 +1,2 @@
+addProject.php:
+-Handle Default values (Not all fields required, some have default values in database)
