@@ -26,7 +26,7 @@ for ($i = 0; $i < sizeof($projects); $i += 1)
     $id = $p->getID();
     $name = $p->getName();
     $DueDate = $p->getDueDate();
-    echo "<a href='viewProject.php?ID=$id'>$name</a>";
+    echo "<a href='viewProject.php?pid=$id'>$name</a>";
     echo "<br><br>";
     echo "</li>";
 }
