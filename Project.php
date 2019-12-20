@@ -3,7 +3,7 @@
 
 class Project
 {
-    private $name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek;
+    private $ID, $name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek;
 
     public function __construct($name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek)
     {
@@ -13,6 +13,16 @@ class Project
         $this->startDate = $startDate;
         $this->dueDate = $dueDate;
         $this->StartingDayOfTheWeek = $StartingDayOfTheWeek;
+    }
+
+    public function setID($ID)
+    {
+        $this->ID = $ID;
+    }
+
+    public function getID()
+    {
+        return $this->ID;
     }
 
     public function getName()
@@ -44,6 +54,11 @@ class Project
     {
         return $this->StartingDayOfTheWeek;
     }
+
+//    public function __toString()
+//    {
+//        return "Project";
+//    }
 
 
 }
