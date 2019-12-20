@@ -1,0 +1,4 @@
+Create TABLE CompletedTask(
+    ID INT PRIMARY KEY,
+    DaysWorked INT NOT NULL,
+    FOREIGN KEY (ID) REFERENCES TASK(ID));

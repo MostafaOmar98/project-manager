@@ -1,0 +1,7 @@
+CREATE TABLE WorksOn(
+    TeamMemberID INT NOT NULL,
+    TaskID INT NOT NULL,
+    CommittedWorkingHours INT NOT NULL,
+    PRIMARY KEY (TeamMemberID, TaskID),
+    FOREIGN KEY (TeamMemberID) REFERENCES TeamMember(ID),
+    FOREIGN KEY (TaskID) REFERENCES Task(ID));

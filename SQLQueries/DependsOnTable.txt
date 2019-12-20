@@ -1,0 +1,6 @@
+Create TABLE DependsOn(
+    DependentID INT NOT NULL,
+    DependencyID INT NOT NULL,
+    PRIMARY KEY (DependentID, DependencyID),
+    FOREIGN KEY (DependentID) REFERENCES Task(ID),
+    FOREIGN KEY (DependencyID) REFERENCES Task(ID));

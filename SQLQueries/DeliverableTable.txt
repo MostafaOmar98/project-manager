@@ -1,0 +1,6 @@
+Create TABLE Deliverable(
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL UNIQUE,
+    Description TEXT,
+    ProjectID INT NOT NULL,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ID));

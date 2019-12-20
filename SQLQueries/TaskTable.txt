@@ -1,0 +1,9 @@
+CREATE TABLE Task(
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL UNIQUE,
+    WorkingDaysNeeded INT NOT NULL,
+    StartDate Date NOT NULL,
+    ProjectID INT NOT NULL,
+    ParentTask INT,
+    FOREIGN KEY (ProjectID) REFERENCES Project(ID),
+    FOREIGN KEY (ParentTask) REFERENCES Task(ID));

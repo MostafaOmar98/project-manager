@@ -1,0 +1,9 @@
+CREATE TABLE Project(
+    ID INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(255) NOT NULL UNIQUE,
+    WorkingHoursPerDay INT DEFAULT 8,
+    Cost INT NOT NULL,
+    WorkingDays INT DEFAULT 5,
+    StartDate Date NOT NULL,
+    DueDate Date NOT NULL,
+    StartingDayOfTheWeek INT DEFAULT 0)
