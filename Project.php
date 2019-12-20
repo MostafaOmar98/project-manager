@@ -59,7 +59,7 @@ class Project
 
     public function __toString()
     {
-        return "" . $this->getName() . " " . $this->getWorkingHoursPerDay() . " " . $this->getCost() . " " . $this->getStartDate() . " " . $this->getDueDate() . " " . $this->getStartingDayOfTheWeek();
+        return "".$this->getID()." ". $this->getName() . " " . $this->getWorkingHoursPerDay() . " " . $this->getCost() . " " . $this->getStartDate() . " " . $this->getDueDate() . " " . $this->getStartingDayOfTheWeek();
     }
 
 
@@ -124,6 +124,7 @@ function getProject($projectName)
         return NULL;
     $row = $record->fetch_assoc();
     $p = new Project($row['Name'], $row['WorkingHoursPerDay'], $row['Cost'], $row['StartDate'], $row['DueDate'], $row['StartingDayOfTheWeek']);
+    $p->setID($row['ID']);
     return $p;
 }
 
