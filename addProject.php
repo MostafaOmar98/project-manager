@@ -1,6 +1,6 @@
 <?php
 
-include 'db-manager.php';
+include 'Project.php';
 
 $nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = "";
 $name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = "";

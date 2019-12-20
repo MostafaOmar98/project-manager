@@ -13,7 +13,7 @@
 </body>
 
 <?php
-include "db-manager.php";
+include "Project.php";
 
 
 echo "<h1> List Of Current Projects: </h1>";

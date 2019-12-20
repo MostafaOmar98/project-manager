@@ -1,24 +1,28 @@
 <?php
 
-function openConnection()
-{
-    $localhost = "localhost";
-    $dbUsername = "root";
-    $dbPassword = "";
-    $dbName = "projectmanager";
-    $dbPort = 3306;
+if (!function_exists('openConnection')) {
+    function openConnection()
+    {
+        $localhost = "localhost";
+        $dbUsername = "root";
+        $dbPassword = "";
+        $dbName = "projectmanager";
+        $dbPort = 3306;
 
-    $conn = new mysqli($localhost, $dbUsername, $dbPassword, $dbName, $dbPort);
+        $conn = new mysqli($localhost, $dbUsername, $dbPassword, $dbName, $dbPort);
 
-    if ($conn->connect_error)
-        die("Connection failed: ".$conn->connect_error);
+        if ($conn->connect_error)
+            die("Connection failed: " . $conn->connect_error);
 
-    return $conn;
+        return $conn;
+    }
 }
 
-function closeConnection($conn)
-{
-    $conn->close();
+if (!function_exists('closeConnection')) {
+    function closeConnection($conn)
+    {
+        $conn->close();
+    }
 }
 
 ?>
