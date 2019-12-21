@@ -140,4 +140,25 @@ function getDeliverableWithNameInProject($name, $pid)
     return $ret[0];
 }
 
+function getDeliverableWithID($did)
+{
+    $selectQuery = "SELECT * FROM deliverable WHERE ID = $did";
+
+    $conn = openConnection();
+    $records = $conn->query($selectQuery);
+    closeConnection($conn);
+
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $d = new Deliverable($row['Name'], $row['Description'], $row['ProjectID']);
+        $d->setId($row['ID']);
+        array_push($ret, $d);
+    }
+    if (sizeof($ret) === 0)
+        return NULL;
+    return $ret[0];
+
+}
+
 ?>

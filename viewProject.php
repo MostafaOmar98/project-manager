@@ -79,7 +79,7 @@ function viewAllDeliverables($pid)
         $d = $deliverables[$i];
         $did = $d->getId();
         echo "<li>";
-        echo "<a href='viewDeliverable.php?did=$did'>".$d->getName()."</a>";
+        echo "<a href='viewDeliverable.php?did=$did&pid=$pid'>".$d->getName()."</a>";
         echo "</li>";
     }
     echo "</ul>";
@@ -100,7 +100,7 @@ function viewAllTeamMembers($pid)
         $tm = $team[$i];
         $tmid = $tm->getId();
         echo "<li>";
-        echo "<a href='viewTeamMember.php?tmid=$tmid'>".$tm->getName()."</a>";
+        echo "<a href='viewTeamMember.php?tmid=$tmid&pid=$pid'>".$tm->getName()."</a>";
         echo "</li>";
     }
     echo "</ul>";
