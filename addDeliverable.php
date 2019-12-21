@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $ok = true;
 
-    if (getDeliverableWithName($name) !== NULL)
+    if (getDeliverableWithNameInProject($name, $pid) !== NULL)
         $nameError .= "A deliverable with this name in this project already exists. ";
 
     $nameError .= checkStrlen($name, 1, 255);
