@@ -2,11 +2,16 @@
 include_once 'Project.php';
 include_once 'Task.php';
 
-$pid = $_GET['pid'];
+$tid = $_GET['tid'];
+$t = getTaskFromID($tid);
+$pid = $t->getPID();
 $p = getProjectFromID($pid);
 $pName = $p->getName();
+$tName = $t->getName();
 echo "<h1>$pName</h1>";
-viewAllTasksHierarchy($pid);
+echo "<br>";
+echo "<h2>$tName</h2>";
+viewAllTasksHierarchy();
 
 function viewTaskTree(Task $t)
 {
@@ -15,7 +20,7 @@ function viewTaskTree(Task $t)
     $tasks = getAllSubtasks($id);
 
     echo "<li>";
-    echo "<a href='viewTask.php?tid=$id'>$name</a>";
+    echo "<a href='viewTask?tid=$id'>$name</a>";
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1)
     {
@@ -26,10 +31,10 @@ function viewTaskTree(Task $t)
     echo "</li>";
 }
 
-function viewAllTasksHierarchy($pid)
+function viewAllTasksHierarchy()
 {
-    $tasks = getTask(NULL, NULL, NULL, NULL, $pid, NULL);
-
+    global $pid, $tid;
+    $tasks = getAllSubtasks($tid);
     echo "<div id='tasksDiv'>";
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1) {
@@ -38,7 +43,7 @@ function viewAllTasksHierarchy($pid)
     }
     echo "</ul>";
     echo "<br><br>";
-    echo "<a href='addTask.php?pid=$pid'>Add New Task For This Project</a>";
+    echo "<a href='addTask.php?pid=$pid&tid=$tid'>Add New Subtask For This Task</a>";
     echo "</div>";
 }
 

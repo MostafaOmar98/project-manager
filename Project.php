@@ -1,7 +1,7 @@
 <?php
 
 include_once 'db-connection.php';
-
+include_once 'Entity.php';
 
 class Project extends Entity
 {

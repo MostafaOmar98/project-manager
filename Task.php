@@ -1,5 +1,7 @@
 <?php
 
+include_once 'Entity.php';
+include_once 'db-connection.php';
 
 class Task extends Entity
 {
@@ -138,7 +140,7 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
     return $ret;
 }
 
-function getTaskWithName($name)
+function getTaskFromName($name)
 {
     $arr = getTask(NULL, $name, NULL, NULL, NULL, NULL);
     if (sizeof($arr) === 0)
@@ -150,6 +152,14 @@ function getAllSubtasks($tid)
 {
     $arr = getTask(NULL, NULL, NULL, NULL, NULL, $tid);
     return $arr;
+}
+
+function getTaskFromID($tid)
+{
+    $arr = getTask($tid, NULL, NULL, NULL, NULL, NULL);
+    if (sizeof($arr) === 0)
+        return NULL;
+    return $arr[0];
 }
 
 ?>

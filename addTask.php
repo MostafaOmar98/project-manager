@@ -25,23 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 
     $ok = true;
 
-    if (strlen($name) > 255)
-    {
-        $nameError .= "Task Name must be less than 255 characters ";
-        $ok = false;
-    }
+    $nameError .= checkStrlen($name, 1, 255);
+    $workingDaysNeededError .= checkNumericLimits($workingDaysNeeded, 1, 9999);
 
-    if (getTaskWithName($name) !== NULL) {
+    if (getTaskFromName($name) !== NULL) {
         $nameError .= "A Task with this name in this project already exists ";
-        $ok = false;
-    }
-
-    if ($workingDaysNeeded <= 0) {
-        $workingDaysNeededError .= "Working Days Needed must be greater than 0 ";
-        $ok = false;
-    }
-    if (!is_numeric($workingDaysNeeded)){
-        $workingDaysNeededError .= "Working Days Needed must be integer ";
         $ok = false;
     }
 
@@ -55,6 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
         $workingDaysNeededError .= "Task can't be planned to finish after project due date ";
         $ok = false;
     }
+
+    $ok &= strlen($nameError) == 0;
+    $ok &= strlen($workingDaysNeededError) == 0;
 
     if ($ok)
     {
