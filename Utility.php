@@ -29,4 +29,13 @@ function checkNumericLimits($x, $min, $max)
     return "Field must be between $min and $max ";
 }
 
+function trimArray($arr)
+{
+    for ($i = 0; $i < sizeof($arr); $i += 1)
+        $arr[$i] = trim($arr[$i]);
+
+    return $arr;
+}
+
+
 ?>

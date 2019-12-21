@@ -3,15 +3,15 @@
 include_once 'Project.php';
 include_once 'Utility.php';
 include_once 'Task.php';
-
+include_once 'Dependency.php';
 /*
  * this page can be used to add a task to project or subtask to a task
  */
 if ($_SERVER['REQUEST_METHOD'] == "GET") // coming from viewProject.php
 {
     $pid = $_GET['pid'];
-    $nameError = $workingDaysNeededError = $startDateError = NULL;
-    $name = $workingDaysNeeded = $startDate = NULL;
+    $nameError = $workingDaysNeededError = $startDateError = $depsError = NULL;
+    $name = $workingDaysNeeded = $startDate = $deps = NULL;
     $p = getProjectFromID($pid);
 
     $pTaskID = NULL;
@@ -22,11 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") // coming from viewProject.php
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 {
-    $nameError = $workingDaysNeededError = $startDateError = NULL;
+    $nameError = $workingDaysNeededError = $startDateError = $depsError = NULL;
 
     $name = $_POST['name'];
     $workingDaysNeeded = $_POST['workingDaysNeeded'];
     $startDate = $_POST['startDate'];
+    $deps = $_POST['deps'];
 
     $pid = $_POST['pid'];
     $p = getProjectFromID($pid);
@@ -38,11 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     }
 
     $ok = true;
-
-    if (getTaskFromName($name) !== NULL) {
-        $nameError .= "A Task with this name in this project already exists ";
-        $ok = false;
-    }
+    $nameError .= validateOneTaskExistence($name, $pid);
 
     $nameError .= checkStrlen($name, 1, 255);
     $workingDaysNeededError .= checkNumericLimits($workingDaysNeeded, 1, 9999);
@@ -53,11 +50,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     if ($pTaskID !== NULL){
         $workingDaysNeededError .= validateNewSubtaskWorkingDays($pTask, $workingDaysNeeded);
         $startDateError .= validateNewSubtaskStartDate($pTask, $startDate);
+    }else{
+        $depTasks = getDepTasks($deps, $pid,$depsError);
+        $startDateError .= validateTaskStartDateWithDep($depTasks, $startDate);
     }
 
     $ok &= empty($workingDaysNeededError);
     $ok &= empty($startDateError);
     $ok &= empty($nameError);
+    $ok &= empty($depsError);
 
     if ($ok)
     {
@@ -70,6 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
         else
             echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a><br>";
         insertTask($t);
+        if ($pTaskID === NULL)
+            insertDependencies(getTaskFromNameInProject($name, $pid), $depTasks);
     }
 }
 
@@ -84,8 +87,10 @@ if ($pTask !== NULL)
     Start Date: <input type="date" name="startDate" required value="<?php echo $startDate;?>"> <?php echo $startDateError; ?><br>
     <input type="text" name="pid" hidden value="<?php echo $pid?>">
     <?php
-    if ($pTaskID === NULL)
-        echo"<input type='submit' value='Add Task To Project ".$pName."'>";
+    if ($pTaskID === NULL) {
+        echo "Dependency Task Names (comma seperated): <input type='text' name='deps' size='100' value ='".$deps."'>". $depsError."<br>";
+        echo "<input type='submit' value='Add Task To Project " . $pName . "'><br>";
+    }
     else {
         echo"<input type='text' name='pTaskID' hidden value='" . $pTaskID. "'>";
         echo "<input type='submit' value='Add Subtask To Task " . $pTaskName . "'>";

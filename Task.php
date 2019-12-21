@@ -223,4 +223,61 @@ function getMajorTasks($pid)
     return getTask(NULL, NULL, NULL, NULL, $pid, 'NULL');
 }
 
+function getTaskFromNameInProject($name, $pid)
+{
+    $arr = getTask(NULL, $name, NULL, NULL,$pid, NULL);
+    if (sizeof($arr) === 0)
+        return NULL;
+    return $arr[0];
+}
+
+function validateTasksExistence($names, $pid)
+{
+    foreach($names as $name)
+    {
+        if (getTaskFromNameInProject($name, $pid) !== NULL)
+            return "Task with name $name already exists in this project";
+    }
+    return NULL;
+}
+function validateOneTaskExistence($name, $pid)
+{
+    return validateTasksExistence(array($name), $pid);
+}
+
+function getDepTasks($deps, $pid, &$depError)
+{
+    $deps = explode(",", $deps);
+    $deps = trimArray($deps);
+    $ret = array();
+    for ($i = 0; $i < sizeof($deps); $i += 1)
+    {
+        $name = $deps[$i];
+        if (empty($name))
+            continue;
+        $t = getTaskFromNameInProject($name, $pid);
+        if ($t === NULL)
+        {
+            $depError .= "Task $name does not exist in this project. ";
+            return NULL;
+        }
+        array_push($ret, $t);
+    }
+    return $ret;
+}
+
+function validateTaskStartDateWithDep($depTasks, $startDate)
+{
+    $maxDate = NULL;
+    for ($i = 0; $i < sizeof($depTasks); $i += 1)
+    {
+        $t = $depTasks[$i];
+        $dueDate = addDaysToDate($t->getStartDate(), $t->getWorkingDaysNeeded());
+        $maxDate = max($maxDate, $dueDate);
+    }
+    if ($startDate <= $maxDate)
+        return "Start Date can't be before dependent tasks end date. ";
+    return NULL;
+}
+
 ?>
