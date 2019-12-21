@@ -114,4 +114,25 @@ function insertWorksOnArr($worksOnArr, $task)
     }
 }
 
+function getTasksForTeamMember(TeamMember $member)
+{
+    $tmid = $member->getId();
+
+    $q = "SELECT * FROM workson WHERE TeamMemberID = $tmid";
+
+    $conn = openConnection();
+    $records = $conn->query($q);
+    closeConnection($conn);
+
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $w = new WorksOn($member, getTaskFromID($row['TaskID']), $row['CommittedWorkingHours']);
+        array_push($ret, $w);
+    }
+
+    return $ret;
+
+}
+
 ?>

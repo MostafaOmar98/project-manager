@@ -1,5 +1,5 @@
 <?php
-include "Deliverable.php";
+include_once "Deliverable.php";
 $did = $_GET['did'];
 $d = getDeliverableWithId($did);
 echo "Deliverable Name: ".$d->getName();
