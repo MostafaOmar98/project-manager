@@ -68,7 +68,23 @@ function viewAllDeliverables($pid)
 
 function viewAllTeamMembers($pid)
 {
-    $team = getAllTeamMembers
+    $team = getTeamMemberWithPid($pid);
+
+    echo "<div id='teamMembersDiv'>";
+    echo "<h2>List of Team Members</h2>";
+    echo "<ul>";
+    for ($i = 0; $i < sizeof($team); $i += 1)
+    {
+        $tm = $team[$i];
+        $tmid = $tm->getId();
+        echo "<li>";
+        echo "<a href='viewTeamMember.php?tmid=$tmid'>".$tm->getName()."</a>";
+        echo "</li>";
+    }
+    echo "</ul>";
+
+    echo "<a href='addTeamMember.php?pid=$pid'>"."Add New Team Member to this Project"."</a>";
+    echo "</div>";
 }
 
 ?>

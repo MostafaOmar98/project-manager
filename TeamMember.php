@@ -4,9 +4,9 @@ include_once "db-connection.php";
 
 class TeamMember
 {
-    private $id, $name, $title;
-    private static $columnName = array('ID', 'Name', 'Title');
-    private static $singleQuote = array(NULL, "'", "'");
+    private $id, $name, $title, $pid;
+    private static $columnName = array('ID', 'Name', 'Title', 'ProjectID');
+    private static $singleQuote = array(NULL, "'", "'", NULL);
 
     /**
      * TeamMember constructor.
@@ -14,11 +14,20 @@ class TeamMember
      * @param $name
      * @param $title
      */
-    public function __construct($id, $name, $title)
+    public function __construct($id, $name, $title, $pid)
     {
         $this->id = $id;
         $this->name = $name;
         $this->title = $title;
+        $this->pid = $pid;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPid()
+    {
+        return $this->pid;
     }
 
     public static function getColumnName($i)
@@ -63,13 +72,14 @@ function insertTeamMember(TeamMember $tm)
     $id = $tm->getId();
     $name = $tm->getName();
     $title = $tm->getTitle();
-    $insertQuery = "INSERT INTO teammember (ID, Name, Title) VALUE ($id, '$name', '$title')";
+    $pid = $tm->getPid();
+    $insertQuery = "INSERT INTO teammember (ID, Name, Title, ProjectID) VALUE ($id, '$name', '$title', $pid)";
     $conn = openConnection();
     $conn->query($insertQuery);
     closeConnection($conn);
 }
 
-function getTeamMember($id, $name, $title)
+function getTeamMember($id, $name, $title, $pid)
 {
     $q = "SELECT * FROM teammember ";
     $first = true;
@@ -94,13 +104,13 @@ function getTeamMember($id, $name, $title)
     }
 
     $conn = openConnection();
-    $records = $conn->query($conn);
+    $records = $conn->query($q);
     closeConnection($conn);
 
     $ret = array();
     while($row = $records->fetch_assoc())
     {
-        $tm = new TeamMember($row['ID'], $row['Name'], $row['Title']);
+        $tm = new TeamMember($row['ID'], $row['Name'], $row['Title'], $row['ProjectID']);
         array_push($ret, $tm);
     }
     return $ret;
@@ -108,7 +118,12 @@ function getTeamMember($id, $name, $title)
 
 function getTeamMemberWithID($id)
 {
-    return getTeamMember($id, NULL, NULL);
+    return getTeamMember($id, NULL, NULL, NULL);
+}
+
+function getTeamMemberWithPid($pid)
+{
+    return getTeamMember(NULL, NULL, NULL, $pid);
 }
 
 ?>
