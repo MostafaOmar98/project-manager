@@ -31,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     $startDate = $_POST['startDate'];
     $deps = $_POST['deps'];
     $team = $_POST['team'];
-
+    $isMilestone = 0;
     $pid = $_POST['pid'];
     $p = getProjectFromID($pid);
 
@@ -39,6 +39,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     if (array_key_exists('pTaskID', $_POST)) {
         $pTaskID = $_POST['pTaskID'];
         $pTask = getTaskFromID($pTaskID);
+    }
+    if (array_key_exists('isMilestone', $_POST)){
+        $isMilestone = $_POST['isMilestone'];
     }
 
     $ok = true;
@@ -67,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 
     if ($ok)
     {
-        $t = new Task($name, $workingDaysNeeded, $startDate, $pid);
+        $t = new Task($name, $workingDaysNeeded, $startDate, $pid, $isMilestone);
         echo "Addition Successful!<br>";
         if ($pTaskID !== NULL) {
             $t->setPTaskID($pTaskID);
@@ -98,6 +101,7 @@ if ($pTask !== NULL)
     if ($pTaskID === NULL) {
         echo "Dependency Task Names (comma seperated): <input type='text' name='deps' size='100' value ='".$deps."'>". $depsError."<br>";
         echo "TeamMemberID and Working hours(Each team member id and his working hours are dash-seperated and 2 two team members are comma-seperated): <input type='text' name='team' size='150' value ='".$team."'>". $teamError."<br>";
+        echo "Is Milestone?<input type='checkbox' name='isMilestone' value='1'>";
         echo "<input type='submit' value='Add Task To Project " . $pName . "'><br>";
     }
     else {

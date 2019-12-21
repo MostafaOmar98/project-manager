@@ -30,6 +30,10 @@ function showTaskInfo(Task $t, Project $p)
     echo "<br>";
     echo "Due Date: ".addDaysToDate($t->getStartDate(), $t->getWorkingDaysNeeded());
     echo "<br>";
+    if ($t->getIsMilestone())
+        echo "This task is a milestone";
+    else
+        echo "This task is NOT a milestone";
 }
 
 function viewTaskTree(Task $t)

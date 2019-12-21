@@ -5,10 +5,10 @@ include_once 'db-connection.php';
 
 class Task extends Entity
 {
-    private $id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID;
-    private static $columnName = array("ID", "Name", "WorkingDaysNeeded", "StartDate", "ProjectID", "ParentTask");
-    private static $singleQuote = array(NULL, "'",  NULL, "'", NULL, NULL);
-    public function __construct($name, $workingDaysNeeded, $startDate, $pid)
+    private $id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID, $isMilestone = 0;
+    private static $columnName = array("ID", "Name", "WorkingDaysNeeded", "StartDate", "ProjectID", "ParentTask", "isMilestone");
+    private static $singleQuote = array(NULL, "'",  NULL, "'", NULL, NULL, NULL);
+    public function __construct($name, $workingDaysNeeded, $startDate, $pid, $isMilestone = 0)
     {
         $error = "";
         $id = NULL;
@@ -17,6 +17,15 @@ class Task extends Entity
         $this->workingDaysNeeded = $workingDaysNeeded;
         $this->startDate = $startDate;
         $this->pid = $pid;
+        $this->isMilestone = $isMilestone;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIsMilestone()
+    {
+        return $this->isMilestone;
     }
 
     public static function getColumnName($i)
@@ -87,16 +96,17 @@ function insertTask(Task $t)
     $name = $t->getName();
     $workingDaysNeeded = $t->getWorkingDaysNeeded();
     $startDate = $t->getStartDate();
+    $isMilestone = $t->getIsMilestone();
     $pid = $t->getPid();
 
     if ($t->getPTaskID() === NULL) {
-        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID)
-        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid)";
+        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID, isMilestone)
+        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid, $isMilestone)";
     }
     else{
         $pTaskID = $t->getPTaskID();
-        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID, ParentTask)
-        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid, $pTaskID)";
+        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID, ParentTask, isMilestone)
+        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid, $pTaskID, $isMilestone)";
     }
 
     $conn = openConnection();
@@ -104,7 +114,7 @@ function insertTask(Task $t)
     closeConnection($conn);
 }
 
-function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
+function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID, $isMilestone = NULL)
 {
     /*
      * @param values of attributes for columns. NULL if this attribute is not added to WHERE clause

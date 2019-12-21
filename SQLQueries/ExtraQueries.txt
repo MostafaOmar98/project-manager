@@ -2,3 +2,4 @@ ALTER TABLE project DROP COLUMN WorkingDays;
 ALTER TABLE teammember ADD COLUMN ProjectID INT NOT NULL;
 ALTER TABLE teammember ADD CONSTRAINT FOREIGN KEY (ProjectID) REFERENCES Project(ID);
 Removed UNIQUE index from Name in Deliverable and Task through GUI
+ALTER TABLE task add COLUMN isMilestone BOOLEAN NOT NULL DEFAULT 0;
