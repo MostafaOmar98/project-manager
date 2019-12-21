@@ -1,2 +1,3 @@
 addProject.php:
 -Handle Default values (Not all fields required, some have default values in database)
+-Found bug when checking if task or deliverable exists with this name you need to give $pid too. Task names can duplicate over projects
