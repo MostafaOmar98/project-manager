@@ -20,7 +20,7 @@ function viewTaskTree(Task $t)
     $tasks = getAllSubtasks($id);
 
     echo "<li>";
-    echo "<a href='viewTask?tid=$id'>$name</a>";
+    echo "<a href='viewTask.php?tid=$id'>$name</a>";
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1)
     {
@@ -43,7 +43,7 @@ function viewAllTasksHierarchy()
     }
     echo "</ul>";
     echo "<br><br>";
-    echo "<a href='addTask.php?pid=$pid&tid=$tid'>Add New Subtask For This Task</a>";
+    echo "<a href='addTask.php?pid=$pid&pTaskID=$tid'>Add New Subtask For This Task</a>";
     echo "</div>";
 }
 

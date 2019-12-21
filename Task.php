@@ -73,6 +73,11 @@ class Task extends Entity
     {
         return $this->pTaskID;
     }
+
+    public function __toString()
+    {
+        return "".$this->id;
+    }
 }
 
 function insertTask(Task $t)
@@ -84,8 +89,15 @@ function insertTask(Task $t)
     $startDate = $t->getStartDate();
     $pid = $t->getPid();
 
-    $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID)
+    if ($t->getPTaskID() === NULL) {
+        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID)
         VALUES ('$name', $workingDaysNeeded, '$startDate', $pid)";
+    }
+    else{
+        $pTaskID = $t->getPTaskID();
+        $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID, ParentTask)
+        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid, $pTaskID)";
+    }
 
     $conn = openConnection();
     $conn->query($insertQuery);
@@ -117,10 +129,15 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
             }
             // ColumnName = AttributeName
             // Single quotes are optional depending of the attribute needs it or not
-            $queryString .= Task::getColumnName($i) . " = "; // ColumnName =
-            $queryString .= Task::getSingleQuote($i);
-            $queryString .= $args[$i];
-            $queryString .= Task::getSingleQuote($i) . " ";
+            if ($args[$i] != 'NULL') {
+                $queryString .= Task::getColumnName($i) . " = "; // ColumnName =
+                $queryString .= Task::getSingleQuote($i);
+                $queryString .= $args[$i];
+                $queryString .= Task::getSingleQuote($i) . " ";
+            }
+            else{
+                $queryString .= Task::getColumnName($i)." IS NULL ";
+            }
 
         }
     }
@@ -142,6 +159,8 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
 
 function getTaskFromName($name)
 {
+    if ($name === NULL)
+        return NULL;
     $arr = getTask(NULL, $name, NULL, NULL, NULL, NULL);
     if (sizeof($arr) === 0)
         return NULL;
@@ -150,16 +169,59 @@ function getTaskFromName($name)
 
 function getAllSubtasks($tid)
 {
+    if ($tid === NULL)
+        return NULL;
     $arr = getTask(NULL, NULL, NULL, NULL, NULL, $tid);
     return $arr;
 }
 
 function getTaskFromID($tid)
 {
+    if ($tid === NULL)
+        return NULL;
     $arr = getTask($tid, NULL, NULL, NULL, NULL, NULL);
     if (sizeof($arr) === 0)
         return NULL;
     return $arr[0];
+}
+
+function validateNewTaskWorkingDaysNeeded(Project $p, $startDate, $workingDaysNeeded) // needs work, dependancy and summation of all tasks
+{
+    $dueDate = addDaysToDate($startDate, $workingDaysNeeded);
+    if ($dueDate > $p->getDueDate())
+        return "Task due date can't be after project due date ";
+    return NULL;
+}
+
+function validateNewTaskStartDate(Project $p, $startDate)
+{
+    if ($startDate < $p->getStartDate())
+        return "Task start date can't be before project start date ";
+    return NULL;
+}
+
+function validateNewSubtaskWorkingDays(Task $pTask, $workingDaysNeeded)
+{
+    $subtasks = getAllSubtasks($pTask->getID());
+    $sumDays = 0;
+    for ($i = 0; $i < sizeof($subtasks); $i += 1)
+        $sumDays += $subtasks[$i]->getWorkingDaysNeeded();
+    $sumDays += $workingDaysNeeded;
+    if ($sumDays > $pTask->getWorkingDaysNeeded())
+        return "Working days needed for subtasks can't be more than working days needed for parent task ";
+    return NULL;
+}
+
+function validateNewSubtaskStartDate(Task $pTask, $startDate)
+{
+    if ($startDate < $pTask->getStartDate())
+        return "Subtask start date can't be before task start date ";
+    return NULL;
+}
+
+function getMajorTasks($pid)
+{
+    return getTask(NULL, NULL, NULL, NULL, $pid, 'NULL');
 }
 
 ?>
