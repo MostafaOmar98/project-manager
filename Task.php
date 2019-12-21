@@ -70,6 +70,24 @@ class Task
     }
 }
 
+function insertTask(Task $t)
+{
+    // $t should be validated before calling this
+
+    $name = $t->getName();
+    $workingDaysNeeded = $t->getWorkingDaysNeeded();
+    $startDate = $t->getStartDate();
+    $pid = $t->getPid();
+
+    $insertQuery = "INSERT INTO Task (Name, WorkingDaysNeeded, StartDate, ProjectID)
+        VALUES ('$name', $workingDaysNeeded, '$startDate', $pid)";
+
+    $conn = openConnection();
+    $conn->query($insertQuery);
+    closeConnection($conn);
+
+}
+
 function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
 {
     /*
@@ -77,7 +95,7 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
      * Returns array of tasks
      */
     $args = func_get_args();
-    $queryString = "SELECT * FROM TASK "; // if all attributes are null just get all attributes, no where here.
+    $queryString = "SELECT * FROM task "; // if all attributes are null just get all attributes, no where here.
     $first = true;
     for ($i = 0; $i < sizeof($args); $i += 1)
     {
@@ -101,7 +119,6 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
 
         }
     }
-
     $conn = openConnection();
     $records = $conn->query($queryString);
     closeConnection($conn);
@@ -116,6 +133,14 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
     }
 
     return $ret;
+}
+
+function getTaskWithName($name)
+{
+    $arr = getTask(NULL, $name, NULL, NULL, NULL, NULL);
+    if (sizeof($arr) === 0)
+        return NULL;
+    return $arr[0];
 }
 
 ?>

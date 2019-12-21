@@ -34,7 +34,7 @@ function viewAllTasksHierarchy($pid)
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1) {
         $t = $tasks[$i];
-        viewTaskTree($t);
+//        viewTaskTree($t);
     }
     echo "</ul>";
     echo "<br><br>";
