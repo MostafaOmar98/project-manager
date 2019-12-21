@@ -8,9 +8,30 @@ $pid = $_GET['pid'];
 $p = getProjectFromID($pid);
 $pName = $p->getName();
 echo "<h1>$pName</h1>";
+showProjectInfo($p);
 viewAllTasksHierarchy($pid);
 viewAllDeliverables($pid);
 viewAllTeamMembers($pid);
+
+function showProjectInfo(Project $p)
+{
+    echo "Name: ".$p->getName();
+    echo "<br>";
+    echo "Working Hours Per Day: ".$p->getWorkingHoursPerDay();
+    echo "<br>";
+    echo "Cost: ".$p->getCost();
+    echo "<br>";
+    echo "Start Date: ".$p->getStartDate();
+    echo "<br>";
+    echo "DueDate: ".$p->getDueDate();
+    echo "<br>";
+    echo "Starting Day of The Week: ";
+    if ($p->getStartingDayOfTheWeek() == 0)
+        echo "Sunday";
+    else
+        echo "Monday";
+}
+
 function viewTaskTree(Task $t)
 {
     $id = $t->getID();
