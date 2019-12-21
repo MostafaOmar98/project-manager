@@ -72,6 +72,10 @@ class Task
 
 function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
 {
+    /*
+     * @param values of attributes for columns. NULL if this attribute is not added to WHERE clause
+     * Returns array of tasks
+     */
     $args = func_get_args();
     $queryString = "SELECT * FROM TASK "; // if all attributes are null just get all attributes, no where here.
     $first = true;
@@ -99,8 +103,9 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
     }
 
     $conn = openConnection();
-
     $records = $conn->query($queryString);
+    closeConnection($conn);
+
     $ret = array();
     while($row = $records->fetch_assoc())
     {
@@ -110,9 +115,7 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
         array_push($ret, $t);
     }
 
-    closeConnection($conn);
     return $ret;
-
 }
 
 ?>

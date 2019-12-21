@@ -28,7 +28,7 @@ function viewTaskTree(Task $t)
 
 function viewAllTasksHierarchy($pid)
 {
-    $tasks = getAllTasksForProject($pid);
+    $tasks = getTask(NULL, NULL, NULL, NULL, $pid, NULL);
 
     echo "<div id='tasksDiv'>";
     echo "<ul>";
