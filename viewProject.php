@@ -2,14 +2,14 @@
 include_once 'Project.php';
 include_once 'Task.php';
 include_once 'Deliverable.php';
-
+include_once 'TeamMember.php';
 $pid = $_GET['pid'];
 $p = getProjectFromID($pid);
 $pName = $p->getName();
 echo "<h1>$pName</h1>";
 viewAllTasksHierarchy($pid);
 viewAllDeliverables($pid);
-
+viewAllTeamMembers($pid);
 function viewTaskTree(Task $t)
 {
     $id = $t->getID();
@@ -64,6 +64,11 @@ function viewAllDeliverables($pid)
 
     echo "<a href='addDeliverable.php?pid=$pid'>"."Add New Deliverable to this Project"."</a>";
     echo "</div>";
+}
+
+function viewAllTeamMembers($pid)
+{
+    $team = getAllTeamMembers
 }
 
 ?>
