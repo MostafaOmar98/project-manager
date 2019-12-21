@@ -4,14 +4,16 @@ include_once 'Project.php';
 include_once 'Utility.php';
 include_once 'Task.php';
 include_once 'Dependency.php';
+include_once 'WorksOn.php';
+include_once 'TeamMember.php';
 /*
  * this page can be used to add a task to project or subtask to a task
  */
 if ($_SERVER['REQUEST_METHOD'] == "GET") // coming from viewProject.php
 {
     $pid = $_GET['pid'];
-    $nameError = $workingDaysNeededError = $startDateError = $depsError = NULL;
-    $name = $workingDaysNeeded = $startDate = $deps = NULL;
+    $nameError = $workingDaysNeededError = $startDateError = $depsError = $teamError = NULL;
+    $name = $workingDaysNeeded = $startDate = $deps = $team = NULL;
     $p = getProjectFromID($pid);
 
     $pTaskID = NULL;
@@ -22,12 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") // coming from viewProject.php
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 {
-    $nameError = $workingDaysNeededError = $startDateError = $depsError = NULL;
+    $nameError = $workingDaysNeededError = $startDateError = $depsError = $teamError = NULL;
 
     $name = $_POST['name'];
     $workingDaysNeeded = $_POST['workingDaysNeeded'];
     $startDate = $_POST['startDate'];
     $deps = $_POST['deps'];
+    $team = $_POST['team'];
 
     $pid = $_POST['pid'];
     $p = getProjectFromID($pid);
@@ -53,12 +56,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     }else{
         $depTasks = getDepTasks($deps, $pid,$depsError);
         $startDateError .= validateTaskStartDateWithDep($depTasks, $startDate);
+        $worksOnArr = validateWorksOn($team, $workingDaysNeeded, $teamError);
     }
 
     $ok &= empty($workingDaysNeededError);
     $ok &= empty($startDateError);
     $ok &= empty($nameError);
     $ok &= empty($depsError);
+    $ok &= empty($teamError);
 
     if ($ok)
     {
@@ -71,8 +76,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
         else
             echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a><br>";
         insertTask($t);
-        if ($pTaskID === NULL)
-            insertDependencies(getTaskFromNameInProject($name, $pid), $depTasks);
+        if ($pTaskID === NULL) {
+            $t = getTaskFromNameInProject($name, $pid);
+            insertDependencies($t, $depTasks);
+            insertWorksOnArr($worksOnArr, $t);
+        }
     }
 }
 
@@ -89,6 +97,7 @@ if ($pTask !== NULL)
     <?php
     if ($pTaskID === NULL) {
         echo "Dependency Task Names (comma seperated): <input type='text' name='deps' size='100' value ='".$deps."'>". $depsError."<br>";
+        echo "TeamMemberID and Working hours(Each team member id and his working hours are dash-seperated and 2 two team members are comma-seperated): <input type='text' name='team' size='150' value ='".$team."'>". $teamError."<br>";
         echo "<input type='submit' value='Add Task To Project " . $pName . "'><br>";
     }
     else {

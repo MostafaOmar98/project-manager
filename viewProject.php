@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 include_once 'Project.php';
 include_once 'Task.php';
 include_once 'Deliverable.php';
