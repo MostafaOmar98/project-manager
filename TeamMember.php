@@ -116,14 +116,18 @@ function getTeamMember($id, $name, $title, $pid)
     return $ret;
 }
 
-function getTeamMemberWithID($id)
-{
-    return getTeamMember($id, NULL, NULL, NULL);
-}
 
 function getTeamMemberWithPid($pid)
 {
     return getTeamMember(NULL, NULL, NULL, $pid);
+}
+
+function getTeamMemberWithID($tmid)
+{
+    $arr = getTeamMember($tmid, NULL, NULL, NULL);
+    if (sizeof($arr) === 0)
+        return NULL;
+    return $arr[0];
 }
 
 ?>

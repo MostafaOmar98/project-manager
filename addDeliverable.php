@@ -34,7 +34,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if ($ok)
     {
         $d = new Deliverable($name, $description, $pid);
-//        echo $d;
         insertDeliverable($d);
         echo "Addition Sucessful!<br>";
         echo "<a href='viewProject.php?pid=$pid'>Return to Project Page </a>";
