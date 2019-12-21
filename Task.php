@@ -102,7 +102,6 @@ function insertTask(Task $t)
     $conn = openConnection();
     $conn->query($insertQuery);
     closeConnection($conn);
-
 }
 
 function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID)
