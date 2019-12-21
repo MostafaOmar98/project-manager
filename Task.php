@@ -157,7 +157,7 @@ function getTask($id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID, $is
     $ret = array();
     while($row = $records->fetch_assoc())
     {
-        $t = new Task($row['Name'], $row['WorkingDaysNeeded'], $row['StartDate'], $row['ProjectID']);
+        $t = new Task($row['Name'], $row['WorkingDaysNeeded'], $row['StartDate'], $row['ProjectID'], $row['isMilestone']);
         $t->setID($row['ID']);
         $t->setPTaskID($row['ParentTask']);
         array_push($ret, $t);
