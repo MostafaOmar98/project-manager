@@ -64,3 +64,37 @@ function insertDependencies($dependent, $depTasks)
         insertDependency($d);
     }
 }
+
+function getAllDependencyTasks(Task $t)
+{
+    $tid = $t->getId();
+    $q = "SELECT DependencyID FROM dependson where DependentID = $tid";
+
+    $conn = openConnection();
+    $records = $conn->query($q);
+    closeConnection($conn);
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $tid = $row['DependencyID'];
+        array_push($ret, getTaskFromID($tid));
+    }
+    return $ret;
+}
+
+function getAllDependentTasks(Task $t)
+{
+    $tid = $t->getId();
+    $q = "SELECT DependentID FROM dependson where DependencyID = $tid";
+
+    $conn = openConnection();
+    $records = $conn->query($q);
+    closeConnection($conn);
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $tid = $row['DependentID'];
+        array_push($ret, getTaskFromID($tid));
+    }
+    return $ret;
+}
