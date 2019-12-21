@@ -58,6 +58,10 @@ class Deliverable
     {
         $this->id = $id;
     }
+
+    public function __toString(){
+        return "".$this->id." ".$this->name." ".$this->description." ".$this->pid;
+    }
 }
 
 
@@ -71,7 +75,7 @@ function insertDeliverable(Deliverable $d)
     $pid = $d->getPid();
 
     $insertQuery = "INSERT INTO deliverable (Name, Description, ProjectID) 
-                VALUES ($id, '$name', '$description', $pid)";
+                VALUES ('$name', '$description', $pid)";
 
     $conn = openConnection();
     $conn->query($insertQuery);
@@ -94,4 +98,24 @@ function getAllDeliverables($pid)
         array_push($ret, $d);
     }
     return $ret;
+}
+
+function getDeliverableWithName($name)
+{
+    $selectQuery = "SELECT * FROM deliverable WHERE Name = '$name'";
+
+    $conn = openConnection();
+    $records = $conn->query($selectQuery);
+    closeConnection($conn);
+
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $d = new Deliverable($row['Name'], $row['Description'], $row['ProjectID']);
+        $d->setId($row['ID']);
+        array_push($ret, $d);
+    }
+    if (sizeof($ret) === 0)
+        return NULL;
+    return $ret[0];
 }
