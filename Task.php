@@ -6,7 +6,7 @@ include_once 'db-connection.php';
 class Task extends Entity
 {
     private $id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID;
-    private static $columnList = array("ID", "Name", "WorkingDaysNeeded", "StartDate", "ProjectID", "ParentTask");
+    private static $columnName = array("ID", "Name", "WorkingDaysNeeded", "StartDate", "ProjectID", "ParentTask");
     private static $singleQuote = array(NULL, "'",  NULL, "'", NULL, NULL);
     public function __construct($name, $workingDaysNeeded, $startDate, $pid)
     {
@@ -21,7 +21,7 @@ class Task extends Entity
 
     public static function getColumnName($i)
     {
-        return Task::$columnList[$i];
+        return Task::$columnName[$i];
     }
 
     public static function getSingleQuote($i)
