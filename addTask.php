@@ -4,18 +4,18 @@ include_once 'Project.php';
 include_once 'Utility.php';
 include_once 'Task.php';
 
+
 if ($_SERVER['REQUEST_METHOD'] == "GET") // coming from viewProject.php
 {
     $pid = $_GET['pid'];
-    $nameError = $workingDaysNeededError = $startDateError = "";
-    $name = $workingDaysNeeded = $startDate = "";
+    $nameError = $workingDaysNeededError = $startDateError = NULL;
+    $name = $workingDaysNeeded = $startDate = NULL;
     $p = getProjectFromID($pid);
 }
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 {
-    $nameError = $workingDaysNeededError = $startDateError = "";
-    $name = $workingDaysNeeded = $startDate = "";
+    $nameError = $workingDaysNeededError = $startDateError = NULL;
 
     $name = $_POST['name'];
     $workingDaysNeeded = $_POST['workingDaysNeeded'];
@@ -27,6 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
 
     $nameError .= checkStrlen($name, 1, 255);
     $workingDaysNeededError .= checkNumericLimits($workingDaysNeeded, 1, 9999);
+
+    $ok &= (empty($nameError) && empty($workingDaysNeededError));
 
     if (getTaskFromName($name) !== NULL) {
         $nameError .= "A Task with this name in this project already exists ";
@@ -43,9 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
         $workingDaysNeededError .= "Task can't be planned to finish after project due date ";
         $ok = false;
     }
-
-    $ok &= strlen($nameError) == 0;
-    $ok &= strlen($workingDaysNeededError) == 0;
 
     if ($ok)
     {

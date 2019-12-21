@@ -2,13 +2,12 @@
 
 include_once 'Project.php';
 
-$nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = "";
-$name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = "";
+$nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = NULL;
+$name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = NULL;
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") // a request happened
 {
-    $nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = "";
-    $name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = "";
+    $nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = NULL;
 
     $name = $_POST['name'];
     $workingHoursPerDay = $_POST['workingHoursPerDay'];
@@ -19,38 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // a request happened
 
     $ok = true;
 
-    if (strlen($_POST['name']) > 255)
-    {
-        $nameError .= "Project Name must be less than 255 characters ";
-        $ok = false;
-    }
+    $nameError .= checkStrlen($name, 1, 255);
+    $workingHoursPerDayError .= checkNumericLimits($workingHoursPerDay, 1, 24);
+    $costError .= checkNumericLimits($cost, 0, 10000000000000000000);
 
-    if (strcmp(gettype($name), "string") !== 0) {
-        $nameError .= "Project name must be a string ";
-        $ok .= false;
-    }
+    $ok &= (empty($nameError) && empty($workingHoursPerDayError) && empty($costError));
 
     if (getProjectFromName($name) !== NULL) {
         $nameError = "A Project with this name already exists";
         $ok = false;
     }
 
-    if ($_POST['workingHoursPerDay'] <= 0 || $_POST['workingHoursPerDay'] > 24) {
-        $workingHoursPerDayError = "Working Hours Per Day Must be in Range [1, 24] ";
-        $ok = false;
-    }
-    if (!is_numeric($workingHoursPerDay)){
-        $workingHoursPerDayError .= "Working Hours Per Day must be integer ";
-        $ok = false;
-    }
-    if ($_POST['cost'] < 0){
-        $costError = "Cost can't be negative ";
-        $ok = false;
-    }
-    if (!is_numeric($cost)) {
-        $costError .= "Cost must be an integer ";
-        $ok = false;
-    }
 
     if ($_POST['dueDate'] < $_POST['startDate']){
         $dueDateError = "Due Date can't be before Start Date";
