@@ -1,12 +1,21 @@
 <?php
+include_once 'Project.php';
+include_once 'Task.php';
 
-function viewTaskTree($t)
+$pid = $_GET['pid'];
+$p = getProjectFromID($pid);
+$pName = $p->getName();
+echo "<h1>$pName</h1>";
+viewAllTasksHierarchy($pid);
+
+function viewTaskTree(Task $t)
 {
     $id = $t->getID();
     $name = $t->getName();
+    $tasks = getAllSubtasks($id);
+
     echo "<li>";
     echo "<a href='viewTask?tid=$id'>$name</a>";
-    $tasks = getAllSubtasks($id);
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1)
     {
@@ -20,6 +29,7 @@ function viewTaskTree($t)
 function viewAllTasksHierarchy($pid)
 {
     $tasks = getAllTasksForProject($pid);
+
     echo "<div id='tasksDiv'>";
     echo "<ul>";
     for ($i = 0; $i < sizeof($tasks); $i += 1) {

@@ -5,7 +5,7 @@ include_once 'db-connection.php';
 
 class Project
 {
-    private $ID, $name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek;
+    private $id, $name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek;
 
     public function __construct($name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek)
     {
@@ -17,14 +17,14 @@ class Project
         $this->StartingDayOfTheWeek = $StartingDayOfTheWeek;
     }
 
-    public function setID($ID)
+    public function setID($id)
     {
-        $this->ID = $ID;
+        $this->id = $id;
     }
 
     public function getID()
     {
-        return $this->ID;
+        return $this->id;
     }
 
     public function getName()
@@ -106,12 +106,13 @@ function getAllProjects()
         array_push($ret, $p);
     }
 
+    closeConnection($conn);
     return $ret;
 }
 
 
 
-function getProject($projectName)
+function getProjectFromName($projectName)
 {
     /*
      * Returns Project object or NULL if not found
@@ -125,6 +126,27 @@ function getProject($projectName)
     $row = $record->fetch_assoc();
     $p = new Project($row['Name'], $row['WorkingHoursPerDay'], $row['Cost'], $row['StartDate'], $row['DueDate'], $row['StartingDayOfTheWeek']);
     $p->setID($row['ID']);
+
+    closeConnection($conn);
+    return $p;
+}
+
+function getProjectFromID($id)
+{
+    /*
+     * Returns Project object or NULL if not found
+     */
+    $conn = openConnection();
+
+    $selectQuery = "SELECT * FROM project WHERE ID='$id'";
+    $record = $conn->query($selectQuery);
+    if ($record->num_rows === 0)
+        return NULL;
+    $row = $record->fetch_assoc();
+    $p = new Project($row['Name'], $row['WorkingHoursPerDay'], $row['Cost'], $row['StartDate'], $row['DueDate'], $row['StartingDayOfTheWeek']);
+    $p->setID($row['ID']);
+
+    closeConnection($conn);
     return $p;
 }
 
