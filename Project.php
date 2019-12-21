@@ -3,7 +3,7 @@
 include_once 'db-connection.php';
 
 
-class Project
+class Project extends Entity
 {
     private $id, $name, $workingHoursPerDay, $cost, $startDate, $dueDate, $StartingDayOfTheWeek;
 

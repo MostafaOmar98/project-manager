@@ -1,13 +1,16 @@
 <?php
 
 
-class Task
+class Task extends Entity
 {
     private $id, $name, $workingDaysNeeded, $startDate, $pid, $pTaskID;
     private static $columnList = array("ID", "Name", "WorkingDaysNeeded", "StartDate", "ProjectID", "ParentTask");
     private static $singleQuote = array(NULL, "'",  NULL, "'", NULL, NULL);
     public function __construct($name, $workingDaysNeeded, $startDate, $pid)
     {
+        $error = "";
+        $id = NULL;
+        $pTaskID = NULL;
         $this->name = $name;
         $this->workingDaysNeeded = $workingDaysNeeded;
         $this->startDate = $startDate;
@@ -141,6 +144,12 @@ function getTaskWithName($name)
     if (sizeof($arr) === 0)
         return NULL;
     return $arr[0];
+}
+
+function getAllSubtasks($tid)
+{
+    $arr = getTask(NULL, NULL, NULL, NULL, NULL, $tid);
+    return $arr;
 }
 
 ?>
