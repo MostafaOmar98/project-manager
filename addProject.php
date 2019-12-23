@@ -1,6 +1,8 @@
 <?php
+set_time_limit(0);
 
 include_once 'Project.php';
+include 'Utility.php';
 
 $nameError = $workingHoursPerDayError = $costError = $startDateError = $dueDateError = $startingDayOfTheWeekError = NULL;
 $name = $workingHoursPerDay = $cost = $startDate = $dueDate = $startingDayOfTheWeek = NULL;

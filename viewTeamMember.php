@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 include_once 'TeamMember.php';
 include_once 'WorksOn.php';
 $tmid = $_GET['tmid'];

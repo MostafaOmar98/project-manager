@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 
 include_once 'db-connection.php';
 include_once 'Project.php';

@@ -1,4 +1,5 @@
 <?php
+set_time_limit(0);
 
 include_once 'Project.php';
 include_once 'Utility.php';
@@ -29,8 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     $name = $_POST['name'];
     $workingDaysNeeded = $_POST['workingDaysNeeded'];
     $startDate = $_POST['startDate'];
-    $deps = $_POST['deps'];
-    $team = $_POST['team'];
     $isMilestone = 0;
     $pid = $_POST['pid'];
     $p = getProjectFromID($pid);
@@ -43,6 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     if (array_key_exists('isMilestone', $_POST)){
         $isMilestone = $_POST['isMilestone'];
     }
+
 
     $ok = true;
     $nameError .= validateOneTaskExistence($name, $pid);
@@ -57,6 +57,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
         $workingDaysNeededError .= validateNewSubtaskWorkingDays($pTask, $workingDaysNeeded);
         $startDateError .= validateNewSubtaskStartDate($pTask, $startDate);
     }else{
+        $team = $_POST['team'];
+        $deps = $_POST['deps'];
         $depTasks = getDepTasks($deps, $pid,$depsError);
         $startDateError .= validateTaskStartDateWithDep($depTasks, $startDate);
         $worksOnArr = validateWorksOn($team, $workingDaysNeeded, $teamError);

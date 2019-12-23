@@ -1,3 +1,7 @@
+<?php
+set_time_limit(0);
+?>
+
 <head>
     <title>Project Manager</title>
 </head>
