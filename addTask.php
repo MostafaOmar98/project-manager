@@ -56,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") // Tried to add Task
     if ($pTaskID !== NULL){
         $workingDaysNeededError .= validateNewSubtaskWorkingDays($pTask, $workingDaysNeeded);
         $startDateError .= validateNewSubtaskStartDate($pTask, $startDate);
+        $startDateError .= validateNewSubtaskDueDate($pTask, $startDate, $workingDaysNeeded);
     }else{
         $team = $_POST['team'];
         $deps = $_POST['deps'];

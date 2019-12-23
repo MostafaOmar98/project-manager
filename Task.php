@@ -218,7 +218,7 @@ function validateNewSubtaskWorkingDays(Task $pTask, $workingDaysNeeded)
         $sumDays += $subtasks[$i]->getWorkingDaysNeeded();
     $sumDays += $workingDaysNeeded;
     if ($sumDays > $pTask->getWorkingDaysNeeded())
-        return "Working days needed for subtasks can't be more than working days needed for parent task ";
+        return "Summation of working days needed for subtasks can't be more than working days needed for parent task ";
     return NULL;
 }
 
@@ -229,9 +229,23 @@ function validateNewSubtaskStartDate(Task $pTask, $startDate)
     return NULL;
 }
 
+function validateNewSubtaskDueDate(Task $pTask, $startDate, $workingDaysNeeded)
+{
+    $taskDueDate = addDaysToDate($pTask->getStartDate(), $pTask->getWorkingDaysNeeded());
+    $subtaskDuedate = addDaysToDate($startDate, $workingDaysNeeded);
+    if ($subtaskDuedate > $taskDueDate)
+        return "Subtask due date cant be after parent task due date. ";
+    return NULL;
+}
+
 function getMajorTasks($pid)
 {
     return getTask(NULL, NULL, NULL, NULL, $pid, 'NULL');
+}
+
+function getAllTasks($pid)
+{
+    return getTask(NULL, NULL, NULL, NULL, $pid, NULL);
 }
 
 function getTaskFromNameInProject($name, $pid)

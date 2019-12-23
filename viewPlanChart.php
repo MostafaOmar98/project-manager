@@ -7,7 +7,7 @@ $pid = $_GET['pid'];
 $s = getTasksData($pid);
 function getTasksData($pid)
 {
-    $tasks = getMajorTasks($pid);
+    $tasks = getAllTasks($pid);
     $ret = array();
     for ($i = 0; $i < sizeof($tasks); $i += 1)
     {

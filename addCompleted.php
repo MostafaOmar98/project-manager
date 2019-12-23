@@ -27,7 +27,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $t = getTaskFromNameInProject($name, $pid);
     if ($t == NULL)
         $nameError .= "Task $name does not exist in this project. ";
-
+    if (getCompletedTaskWithTid($t->getId()) !== NULL)
+        $nameError .= "Task $name already recorded. ";
     $ok = empty($nameError) && empty($startDateError) && empty($endDateError);
 
     if ($ok)
