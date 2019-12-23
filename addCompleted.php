@@ -2,6 +2,8 @@
 
 include_once 'Project.php';
 include_once 'Utility.php';
+include_once 'Task.php';
+include_once 'CompletedTask.php';
 $nameError = $startDateError = $endDateError = NULL;
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET')
@@ -33,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         $c = new CompletedTask($t->getId(), $startDate, $endDate);
         insertCompletedTask($c);
         echo "Recorded Successfuly!<br>";
-        echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a>"
+        echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a>";
     }
 }
 
@@ -43,9 +45,9 @@ $pName = $p->getName();
 
 
 <form action='addCompleted.php' method='POST'>
-    Task Name: <input type='text' name='name' required value='<?php echo $name?>'> <?php echo $nameError?>
-    Start Date: <input type='date' name='startDate' required value='<?php echo $startDate?>'> <?php echo $startDateError?>
-    End Date: <input type='date' name='endDate' required value='<?php echo $endDate?>'> <?php echo $endDateError?>
+    Task Name: <input type='text' name='name' required value='<?php echo $name?>'> <?php echo $nameError?><br>
+    Start Date: <input type='date' name='startDate' required value='<?php echo $startDate?>'> <?php echo $startDateError?><br>
+    End Date: <input type='date' name='endDate' required value='<?php echo $endDate?>'> <?php echo $endDateError?><br>
     <input type='text' hidden name='pid' value='<?php echo $pid?>'>
     <input type='submit' value='Add record to <?php echo $pName?>'>
 </form>

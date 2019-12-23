@@ -12,7 +12,7 @@ showProjectInfo($p);
 viewAllTasksHierarchy($pid);
 viewAllDeliverables($pid);
 viewAllTeamMembers($pid);
-echo "<a href='addCompleted.php?pid=$pid'>Record actual working hours</a>";
+echo "<a href='addCompleted.php?pid=$pid'>Record actual working hours</a><br><br>";
 echo "<a href='viewChart.php?pid=$pid'>View Gantt charts</a>";
 
 function showProjectInfo(Project $p)
