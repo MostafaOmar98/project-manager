@@ -1,7 +1,8 @@
 <?php
 set_time_limit(0);
+$counter = 0;
 
-function openConnection()
+function openConnectionFirst()
 {
     $localhost = "localhost";
     $dbUsername = "root";
@@ -16,11 +17,17 @@ function openConnection()
 
     return $conn;
 }
+$conn = openConnectionFirst();
 
+function openConnection()
+{
+    global $conn;
+    return $conn;
+}
 
 function closeConnection($conn)
 {
-    $conn->close();
+//    $conn->close();
 }
 
 
