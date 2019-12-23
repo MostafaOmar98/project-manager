@@ -2,7 +2,7 @@
 set_time_limit(0);
 $counter = 0;
 
-function openConnectionFirst()
+function openConnection()
 {
     $localhost = "127.0.0.1";
     $dbUsername = "root";
@@ -17,17 +17,10 @@ function openConnectionFirst()
 
     return $conn;
 }
-$conn = openConnectionFirst();
-
-function openConnection()
-{
-    global $conn;
-    return $conn;
-}
 
 function closeConnection($conn)
 {
-//    $conn->close();
+    $conn->close();
 }
 
 
