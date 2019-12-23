@@ -59,4 +59,21 @@ function insertCompletedTask(CompletedTask $c)
     closeConnection($conn);
 }
 
+function getCompletedTaskWithTid($tid)
+{
+    $q = "SELECT * FROM completedtask where TaskID = $tid";
 
+
+    $conn = openConnection();
+    $records = $conn->query($q);
+    closeConnection($conn);
+
+    $ret = array();
+    while($row = $records->fetch_assoc())
+    {
+        $c = new CompletedTask($tid, $row['StartDate'], $row['EndDate']);
+        array_push($ret, $c);
+    }
+
+    return $ret;
+}
