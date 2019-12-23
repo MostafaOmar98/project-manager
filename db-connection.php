@@ -4,7 +4,7 @@ $counter = 0;
 
 function openConnectionFirst()
 {
-    $localhost = "localhost";
+    $localhost = "127.0.0.1";
     $dbUsername = "root";
     $dbPassword = "";
     $dbName = "projectmanager";
