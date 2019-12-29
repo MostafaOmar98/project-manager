@@ -9,9 +9,9 @@ $p = getProjectFromID($pid);
 $pName = $p->getName();
 echo "<h1>$pName</h1>";
 showProjectInfo($p);
-viewAllTasksHierarchy($pid);
-viewAllDeliverables($pid);
 viewAllTeamMembers($pid);
+viewAllDeliverables($pid);
+viewAllTasksHierarchy($pid);
 
 echo "<a href='addCompleted.php?pid=$pid'>Record actual working hours</a><br><br>";
 echo "<a href='viewPlanChart.php?pid=$pid'>View Plan Gantt Chart</a><br><br>";

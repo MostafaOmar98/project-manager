@@ -34,6 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $ok &= empty($nameError);
     $ok &= empty($titleError);
+    $ok &= $tmidError;
 
     if ($ok)
     {
