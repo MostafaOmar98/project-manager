@@ -28,7 +28,7 @@ function getTasksData($pid)
             $year2 = $endDate->getYear();
             $month2 = $endDate->getMonth();
             $day2 = $endDate->getDay();
-            $s = "['$id', '$name', new Date($year1, $month1, $day1), new Date($year2, $month2, $day2), null, null, null]";
+            $s = "['$id', '$name', new Date($year1, $month1, $day1), new Date($year2, $month2, $day2), null, 100, null]";
             array_push($ret, $s);
         }
     }

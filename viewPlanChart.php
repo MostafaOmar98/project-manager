@@ -22,7 +22,7 @@ function getTasksData($pid)
         $workingDaysNeeded = $t->getWorkingDaysNeeded();
         $duration = $workingDaysNeeded * 24 * 60 * 60 * 1000;
 
-        $s = "['$id', '$name', new Date($year, $month, $day), null, $duration, null, null]";
+        $s = "['$id', '$name', new Date($year, $month, $day), null, $duration, 0, null]";
 //        echo $s . "<br><br>";
         array_push($ret, $s);
     }
