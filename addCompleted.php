@@ -25,9 +25,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     if ($startDate > $endDate)
         $startDateError .= "Start date of task can't be after it's end date. ";
     $t = getTaskFromNameInProject($name, $pid);
-    if ($t == NULL)
+    if ($t === NULL)
         $nameError .= "Task $name does not exist in this project. ";
-    if (getCompletedTaskWithTid($t->getId()) !== NULL)
+    else if (getActualTask($t->getId()) !== NULL)
         $nameError .= "Task $name already recorded. ";
     $ok = empty($nameError) && empty($startDateError) && empty($endDateError);
 
