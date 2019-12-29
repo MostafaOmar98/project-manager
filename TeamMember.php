@@ -131,4 +131,11 @@ function getTeamMemberWithID($tmid)
     return $arr[0];
 }
 
+function getTeamMemberWithIdInProject($tmid, $pid){
+    $arr = getTeamMember($tmid, NULL, NULL, $pid);
+    if (sizeof($arr) === 0)
+        return NULL;
+    return $arr[0];
+}
+
 ?>

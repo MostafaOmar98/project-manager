@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $ok = true;
     $tmidError .= checkNumericLimits($tmid, 1, 1000000000);
-    if (empty($tmidError) && getTeamMemberWithId($tmid) !== NULL)
+    if (empty($tmidError) && getTeamMemberWithIdInProject($tmid, $pid) !== NULL)
         $tmidError .= "A Team Member with this id already exists. ";
 
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
     $ok &= empty($nameError);
     $ok &= empty($titleError);
-    $ok &= $tmidError;
+    $ok &= empty($tmidError);
 
     if ($ok)
     {

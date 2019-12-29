@@ -32,5 +32,6 @@ function viewMemberTasks($member)
 }
 $pid = $_GET['pid'];
 echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a>";
+echo "<br><br><a href='viewProject.php?pid=$pid'>Return to Project Page</a><br>";
 
 ?>

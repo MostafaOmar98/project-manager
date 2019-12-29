@@ -9,5 +9,6 @@ echo "Deliverable Description: ".$d->getDescription();
 echo "<br>";
 
 $pid = $_GET['pid'];
-echo "<a href='viewProject.php?pid=$pid'>Return to project Page</a>"
+echo "<a href='viewProject.php?pid=$pid'>Return to project Page</a>";
+echo "<br><br><a href='viewProject.php?pid=$pid'>Return to Project Page</a><br>";
 ?>

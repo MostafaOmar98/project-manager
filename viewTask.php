@@ -110,5 +110,6 @@ function viewDependent($t)
     echo "<br><br>";
 }
 
-echo "<a href='addTask.php?pid=$pid&pTaskID=$tid'>Add New Subtask For This Task</a>";
+echo "<a href='addTask.php?pid=$pid&pTaskID=$tid'>Add New Subtask For This Task</a><br><br>";
+echo "<a href='viewProject.php?pid=$pid'>Return to Project Page</a><br>";
 ?>

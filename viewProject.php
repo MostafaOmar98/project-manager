@@ -70,6 +70,7 @@ function viewAllTasksHierarchy($pid)
     echo "<br><br>";
     echo "<a href='addTask.php?pid=$pid'>Add New Task For This Project</a>";
     echo "</div>";
+    echo "<br>";
 }
 
 function viewAllDeliverables($pid)
