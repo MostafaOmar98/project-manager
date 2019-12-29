@@ -15,7 +15,8 @@ viewAllTeamMembers($pid);
 
 echo "<a href='addCompleted.php?pid=$pid'>Record actual working hours</a><br><br>";
 echo "<a href='viewPlanChart.php?pid=$pid'>View Plan Gantt Chart</a><br><br>";
-echo "<a href='viewActualChart.php?pid=$pid'>View Actual Gantt Chart</a>";
+echo "<a href='viewActualChart.php?pid=$pid'>View Actual Gantt Chart</a><br><br>";
+echo "<a href='report_analysis.php?pid=$pid'>View Project Report Analysis</a>";
 
 function showProjectInfo(Project $p)
 {
@@ -111,6 +112,7 @@ function viewAllTeamMembers($pid)
 
     echo "<a href='addTeamMember.php?pid=$pid'>"."Add New Team Member to this Project"."</a>";
     echo "</div>";
+    echo "<br>";
 }
 
 

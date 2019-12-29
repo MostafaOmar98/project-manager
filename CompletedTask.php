@@ -78,3 +78,15 @@ function getCompletedTaskWithTid($tid)
 
     return $ret;
 }
+
+function getActualTask($tid){
+    $arr = getCompletedTaskWithTid($tid);
+    if (sizeof($arr) === 0)
+        return NULL;
+    $t = $arr[0];
+    foreach($arr as $task){
+        if ($task->getEndDate() > $t->getEndDate())
+            $t = $task;
+    }
+    return $t;
+}
